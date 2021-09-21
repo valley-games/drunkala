@@ -106,3 +106,5 @@ dist
 
 ## Golang
 vendor/
+unity_stuff/Temp/UnityLockfile
+unity_stuff/Temp/workerlic
