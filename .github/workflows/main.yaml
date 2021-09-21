@@ -1,0 +1,50 @@
+name: Actions 😎
+
+on: [push, pull_request]
+
+env: 
+  PROJECT_NAME: WebGL
+
+
+jobs:
+  build:
+    name: Build my project ✨
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: WebGL
+          allowDirtyBuild: true
+
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build
+          path: build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          repository-name: valley-games/drunkala
+          branch: gh-pages # The branch the action should deploy to.
+          folder: build/WebGL/${{ env.PROJECT_NAME }} # The folder the action should deploy.
+          token: ${{ secrets.THE_GITHUB_PAT }}
+
