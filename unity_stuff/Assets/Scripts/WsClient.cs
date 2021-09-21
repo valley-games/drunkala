@@ -23,7 +23,7 @@ public class WsClient : MonoBehaviour
      }
 
     private void Update(){
-        if (Input.GetKeyUp(KeyCode.Return)) { TapYourSubmitFunction(); }
+        //if (Input.GetKeyUp(KeyCode.Return)) { TapYourSubmitFunction(); }
 
         if(ws == null) {
             return;
